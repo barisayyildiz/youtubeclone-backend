@@ -12,7 +12,8 @@ interface UserInstance extends Model{
 const UserModel = sequelize.define<UserInstance>("users", {
 	id:{
 		primaryKey:true,
-		type:DataTypes.INTEGER
+		type:DataTypes.INTEGER,
+		autoIncrement: true
 	},
 	email:{
 		type:DataTypes.STRING
