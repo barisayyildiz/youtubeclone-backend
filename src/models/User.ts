@@ -7,6 +7,7 @@ interface UserInstance extends Model{
 	username: string,
 	userpassword: string,
 	subscribedto: number[],
+	watchlater: number[]
 }
 
 const UserModel = sequelize.define<UserInstance>("users", {
@@ -16,16 +17,25 @@ const UserModel = sequelize.define<UserInstance>("users", {
 		autoIncrement: true
 	},
 	email:{
-		type:DataTypes.STRING
+		type:DataTypes.STRING,
+		unique:true
 	},
 	username:{
-		type:DataTypes.STRING
+		type:DataTypes.STRING,
+		unique:true
 	},
 	userpassword:{
 		type:DataTypes.STRING
 	},
 	subscribedto:{
-		type:DataTypes.ARRAY(DataTypes.INTEGER)
+		type:DataTypes.ARRAY(DataTypes.INTEGER),
+		allowNull:true,
+		defaultValue:[]
+	},
+	watchlater:{
+		type:DataTypes.ARRAY(DataTypes.INTEGER),
+		allowNull:true,
+		defaultValue:[]
 	}
 })
 
