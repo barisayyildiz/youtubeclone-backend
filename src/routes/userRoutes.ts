@@ -25,15 +25,20 @@ router.get("/user/:id", async (req:Request, res:Response) => {
 })
 
 // create a users
-router.post("/user", (req:Request, res:Response) => {
-	console.log(req.body)
+router.post("/user", async (req:Request, res:Response) => {
+
 	try {
 		const user = UserModel.build({
 			...req.body
 		})
-		console.log(user)
-		user.save()
-		res.json(user)
+		// save user
+		try{
+			await user.save()
+			res.json(user)
+
+		} catch(error){
+			res.json(error)
+		}
 	} catch (error) {
 		res.json(error)
 	}
