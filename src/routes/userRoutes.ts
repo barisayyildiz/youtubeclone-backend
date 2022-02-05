@@ -67,7 +67,7 @@ router.delete("/user/:id", async (req:Request, res:Response) => {
 })
 
 // update a user
-router.put("/user/:id", async (req, res) => {
+router.put("/user/:id", async (req:Request, res:Response) => {
 	const { id } = req.params
 	console.log(req.body)
 	try {

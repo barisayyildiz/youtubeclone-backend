@@ -2,6 +2,7 @@ require('dotenv').config()
 
 import express, { Request, Response } from "express"
 import userRouter from "./routes/userRoutes"
+import videoRouter from "./routes/videoRoutes"
 
 const app = express()
 
@@ -13,6 +14,7 @@ app.use(express.urlencoded({
 
 
 app.use("/api", userRouter)
+app.use("/api", videoRouter)
 
 
 const {
