@@ -1,5 +1,7 @@
 import { Sequelize, Model, DataTypes } from "sequelize"
 import sequelize from "../db"
+import SubscriptionModel from "./Subscription"
+import VideoModel from "./Videos"
 
 interface UserInstance extends Model{
 	id: number,
@@ -26,6 +28,12 @@ const UserModel = sequelize.define<UserInstance>("users", {
 		type:DataTypes.STRING
 	}
 })
+
+UserModel.belongsToMany(UserModel, {as:'subscriber', through:SubscriptionModel, foreignKey:"subscriber"})
+UserModel.belongsToMany(UserModel, {as:'subscribed', through:SubscriptionModel, foreignKey:"subscribed"})
+
+// UserModel.belongsToMany(UserModel, {as:"subscription_subscriber", through:SubscriptionModel, foreignKey:'subscriber'})
+// UserModel.belongsToMany(UserModel, {as:"subscription_subscribed", through:SubscriptionModel, foreignKey:'subscribed'})
 
 export default UserModel
 

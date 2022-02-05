@@ -1,5 +1,6 @@
 import { Sequelize, Model, DataTypes } from "sequelize"
 import sequelize from "../db"
+import UserModel from "./User"
 
 interface VideoInstance extends Model {
 	id: number,
@@ -13,7 +14,7 @@ interface VideoInstance extends Model {
 	visible: boolean,
 }
 
-const VideModel = sequelize.define<VideoInstance>("videos", {
+const VideoModel = sequelize.define<VideoInstance>("videos", {
 	id:{
 		primaryKey: true,
 		type:DataTypes.INTEGER,
@@ -55,5 +56,7 @@ const VideModel = sequelize.define<VideoInstance>("videos", {
 	}
 })
 
+VideoModel.belongsTo(UserModel, {foreignKey:"ownerid"})
 
-export default VideModel
+
+export default VideoModel
