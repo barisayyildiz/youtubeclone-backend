@@ -3,7 +3,7 @@ import sequelize from "../db"
 
 interface CommentInstance extends Model {
 	id: number,
-	userid: number,
+	userId: number,
 	videoid: number,
 	text: string
 }
@@ -14,7 +14,7 @@ const CommentModel = sequelize.define<CommentInstance>("comments", {
 		type:DataTypes.INTEGER,
 		autoIncrement: true
 	},
-	userid:{
+	userId:{
 		type:DataTypes.INTEGER
 	},
 	videoid:{

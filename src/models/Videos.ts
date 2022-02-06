@@ -56,7 +56,6 @@ const VideoModel = sequelize.define<VideoInstance>("videos", {
 	}
 })
 
-VideoModel.belongsTo(UserModel, {foreignKey:"ownerid"})
-
+// VideoModel.belongsTo(UserModel, {foreignKey:"ownerid"})
 
 export default VideoModel
