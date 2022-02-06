@@ -57,4 +57,17 @@ router.delete("/video/:id", async (req:Request, res:Response) => {
 	}
 })
 
+router.get("/videos/user/:id", async (req:Request, res:Response) =>  {
+	try{
+		const videos = await db.Video.findAll({
+			where:{
+				UserId:req.params.id
+			}
+		})
+		res.json(videos)
+	}catch(error){
+		res.json(error)
+	}
+})
+
 export default router
