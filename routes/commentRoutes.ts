@@ -60,15 +60,23 @@ router.delete("/comment/:id", async (req:Request, res:Response) => {
 router.get("/comments/user/:id", async (req:Request, res:Response) => {
 	try {
 		const comments = await db.Comment.findAll({
+			include:[{
+				model:db.User,
+				required:true,
+				as:"user",
+			},
+			{
+				model:db.Video,
+				required:true,
+				as:"video"
+			}],
 			where:{
 				UserId:req.params.id
-			},
-			attributes: {
-				exclude: ['UserId']
-			},
+			}
 		})
 		res.json(comments)
 	} catch (error) {
+		console.log(error)
 		res.json(error)
 	}
 })
@@ -76,18 +84,27 @@ router.get("/comments/user/:id", async (req:Request, res:Response) => {
 router.get("/comments/video/:id", async (req:Request, res:Response) => {
 	try {
 		const comments = await db.Comment.findAll({
+			include:[{
+				model:db.User,
+				required:true,
+				as:"user",
+			},
+			{
+				model:db.Video,
+				required:true,
+				as:"video"
+			}],
 			where:{
 				VideoId:req.params.id
-			},
-			attributes: {
-				exclude: ['VideoId']
-			},
+			}
 		})
 		res.json(comments)
 	} catch (error) {
+		console.log(error)
 		res.json(error)
 	}
 })
+
 
 export default router
 

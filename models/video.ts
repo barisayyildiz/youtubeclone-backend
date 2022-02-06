@@ -37,7 +37,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
 				},
 				as:"user"
 			})
-			Video.hasMany(models.Comment)
+			Video.hasMany(models.Comment, {as:"comments"})
     }
   }
   Video.init({

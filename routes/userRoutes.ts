@@ -34,6 +34,19 @@ router.get("/user/videos/:id", async(req:Request, res:Response) => {
 	}
 })
 
+router.get("/user/comments/:id", async(req:Request, res:Response) => {
+	try{
+		const user:object = await db.User.findAll({
+			include:{
+				model:db.Comment,
+			}
+		})
+		res.json(user)
+	}catch(error){
+		res.json(error)
+	}
+})
+
 router.post("/user", async(req:Request, res:Response) => {
 	try{
 		const user = await db.User.create({
