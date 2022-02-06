@@ -13,27 +13,7 @@ import { projectsAssignments } from "./seeders/projectAssignment"
 
 import userRoutes from "./routes/userRoutes"
 import videoRoutes from "./routes/videoRoutes"
-
-
-// const createProjectAssignments = () => {
-// 	projectsAssignments.map(pA => {
-// 		db.ProjectAssignment.create(pA)
-// 	})
-// }
-
-// const createProjects = () => {
-// 	projects.map(project => {
-// 		db.Project.create(project)
-// 	})
-// }
-// const createUsers = () => {
-// 	users.map(user => {
-// 		db.User.create(user)
-// 	})
-// }
-// createUsers()
-// createProjects()
-// createProjectAssignments()
+import commentRoutes from "./routes/commentRoutes"
 
 const app = express()
 
@@ -45,7 +25,7 @@ app.use(express.urlencoded({
 
 app.use("/api", userRoutes)
 app.use("/api", videoRoutes)
-
+app.use("/api", commentRoutes)
 
 const {
 	PORT

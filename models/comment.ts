@@ -3,57 +3,53 @@
 import { Model } from "sequelize"
 
 
-interface UserAttributes {
+interface CommentAttributes {
 	id: string;
-	username: string;
-	email: string;
-	password: string;
+	text: string;
 }
 
 module.exports = (sequelize:any, DataTypes:any) => {
-  class User extends Model<UserAttributes> implements UserAttributes {
+  class Comment extends Model<CommentAttributes> implements CommentAttributes {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
 		id!:string;
-		username!:string;
-		email!:string;
-		password!:string;
+		text!:string;
     static associate(models:any) {
       // define association here
-			// User.belongsToMany(models.Project, {
-			// 	through:"ProjectAssignment"
-			// })
-			User.hasMany(models.Video)
-			User.hasMany(models.Comment)
+			// User.hasMany(models.Video)
+			Comment.belongsTo(models.User,{
+				foreignKey:{
+					name:"UserId",
+					allowNull:false
+				},
+				as:"user"
+			})
+			Comment.belongsTo(models.Video,{
+				foreignKey:{
+					name:"VideoId",
+					allowNull:false
+				},
+				as:"video"
+			})
     }
   }
-  User.init({
+  Comment.init({
     id:{
 			type:DataTypes.UUID,
 			allowNull:false,
 			primaryKey:true,
 			defaultValue:DataTypes.UUIDV4
 		},
-		username:{
-			type:DataTypes.STRING,
-			allowNull:false,
-			unique:true
-		},
-		email:{
-			type:DataTypes.STRING,
-			allowNull:false,
-			unique:true
-		},
-		password:{
+		text:{
 			type:DataTypes.STRING,
 			allowNull:false
 		}
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'Comment',
   });
-  return User;
+  return Comment;
 };
