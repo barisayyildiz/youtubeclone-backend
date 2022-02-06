@@ -45,4 +45,29 @@ router.post("/user", async(req:Request, res:Response) => {
 	}
 })
 
+router.put("/user/:id", async (req:Request, res:Response) => {
+	try{
+		const user = await db.User.findByPk(req.params.id)
+		user.set({
+			...req.body
+		})
+		await user.save()
+		res.json(user)
+	}catch(error){
+		res.json(error)
+	}
+})
+
+router.delete("/user/:id", async (req:Request, res:Response) => {
+	try {
+		const user = await db.User.findByPk(req.params.id)
+		await user.destroy()
+		res.json({
+			msg:"user successfully removed"
+		})
+	} catch (error) {
+		res.json(error)
+	}
+})
+
 export default router
