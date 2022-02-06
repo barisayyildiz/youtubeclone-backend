@@ -11,23 +11,26 @@ import { users } from "./seeders/users"
 import { projects } from "./seeders/projects"
 import { projectsAssignments } from "./seeders/projectAssignment"
 
+import userRoutes from "./routes/userRoutes"
+import videoRoutes from "./routes/videoRoutes"
 
-const createProjectAssignments = () => {
-	projectsAssignments.map(pA => {
-		db.ProjectAssignment.create(pA)
-	})
-}
 
-const createProjects = () => {
-	projects.map(project => {
-		db.Project.create(project)
-	})
-}
-const createUsers = () => {
-	users.map(user => {
-		db.User.create(user)
-	})
-}
+// const createProjectAssignments = () => {
+// 	projectsAssignments.map(pA => {
+// 		db.ProjectAssignment.create(pA)
+// 	})
+// }
+
+// const createProjects = () => {
+// 	projects.map(project => {
+// 		db.Project.create(project)
+// 	})
+// }
+// const createUsers = () => {
+// 	users.map(user => {
+// 		db.User.create(user)
+// 	})
+// }
 // createUsers()
 // createProjects()
 // createProjectAssignments()
@@ -40,27 +43,8 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-
-app.get("/", async (req:Request, res:Response) => {
-	
-	console.log("listening")
-	try{
-		const users:object = await db.User.findAll({
-			include:{
-				model:db.Project,
-			}
-		})
-		res.json(users)
-	}catch(error){
-		res.json(error)
-	}
-
-})
-
-
-// app.use("/api", userRouter)
-// app.use("/api", videoRouter)
-// app.use("/api", subsRouter)
+app.use("/api", userRoutes)
+app.use("/api", videoRoutes)
 
 
 const {

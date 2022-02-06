@@ -5,7 +5,7 @@ import { Model } from "sequelize"
 
 interface UserAttributes {
 	id: string;
-	name: string;
+	username: string;
 	email: string;
 	password: string;
 }
@@ -18,14 +18,15 @@ module.exports = (sequelize:any, DataTypes:any) => {
      * The `models/index` file will call this method automatically.
      */
 		id!:string;
-		name!:string;
+		username!:string;
 		email!:string;
 		password!:string;
     static associate(models:any) {
       // define association here
-			User.belongsToMany(models.Project, {
-				through:"ProjectAssignment"
-			})
+			// User.belongsToMany(models.Project, {
+			// 	through:"ProjectAssignment"
+			// })
+			User.hasMany(models.Video)
     }
   }
   User.init({
@@ -35,7 +36,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
 			primaryKey:true,
 			defaultValue:DataTypes.UUIDV4
 		},
-		name:{
+		username:{
 			type:DataTypes.STRING,
 			allowNull:false
 		},
