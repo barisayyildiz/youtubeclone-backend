@@ -61,17 +61,19 @@ router.get("/comments/user/:id", async (req:Request, res:Response) => {
 	try {
 		const comments = await db.Comment.findAll({
 			include:[{
-				model:db.User,
-				required:true,
-				as:"user",
-			},
-			{
 				model:db.Video,
 				required:true,
 				as:"video"
 			}],
 			where:{
 				UserId:req.params.id
+			},
+			attributes:{
+				exclude:[
+					"VideoId",
+					"UserId",
+
+				]
 			}
 		})
 		res.json(comments)
@@ -88,14 +90,15 @@ router.get("/comments/video/:id", async (req:Request, res:Response) => {
 				model:db.User,
 				required:true,
 				as:"user",
-			},
-			{
-				model:db.Video,
-				required:true,
-				as:"video"
 			}],
 			where:{
 				VideoId:req.params.id
+			},
+			attributes:{
+				exclude:[
+					"VideoId",
+					"UserId",				
+				]
 			}
 		})
 		res.json(comments)
