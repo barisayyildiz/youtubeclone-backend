@@ -71,4 +71,39 @@ router.get("/videos/user/:id", async (req:Request, res:Response) =>  {
 })
 
 
+router.post("/videos/later", async (req:Request, res:Response) => {
+	try{
+		const later = await db.WatchLater.create({
+			...req.body
+		})
+		res.json(later)
+	}catch(error){
+		res.json(error)
+	}
+})
+
+router.get("/videos/later/:id", async (req:Request, res:Response) => {
+	try {
+		const laters = await db.WatchLater.findAll({
+			include:[{
+				model:db.Video,
+				as:"video"
+			}],			
+			where:{
+				UserId:req.params.id
+			},
+			attributes:{
+				exclude:[
+					"UserId",
+					"VideoId",
+				]
+			}
+		})
+		res.json(laters)
+	} catch (error) {
+		res.json(error)
+	}
+})
+
+
 export default router

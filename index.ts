@@ -1,19 +1,13 @@
 require('dotenv').config()
 
 import express, { Request, Response } from "express"
-// import userRouter from "./routes/userRoutes"
-// import videoRouter from "./routes/videoRoutes"
-// import subsRouter from "./routes/subscriptionRoutes"
 
-// const db = require("./models/index.js")
 import db from "./models"
-import { users } from "./seeders/users"
-import { projects } from "./seeders/projects"
-import { projectsAssignments } from "./seeders/projectAssignment"
 
 import userRoutes from "./routes/userRoutes"
 import videoRoutes from "./routes/videoRoutes"
 import commentRoutes from "./routes/commentRoutes"
+import testRoutes from "./routes/testRoutes"
 
 const app = express()
 
@@ -26,12 +20,13 @@ app.use(express.urlencoded({
 app.use("/api", userRoutes)
 app.use("/api", videoRoutes)
 app.use("/api", commentRoutes)
+app.use("/api", testRoutes)
 
 const {
 	PORT
 } = process.env
 
-db.sequelize.sync({force:true}).then(() => {
+db.sequelize.sync().then(() => {
 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
 })
 

@@ -30,7 +30,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
 			User.hasMany(models.Comment)
 			
 			// WatchLater table
-			
+			User.hasMany(models.WatchLater)
 
     }
   }
