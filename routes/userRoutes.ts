@@ -26,6 +26,14 @@ router.get("/user/videos/:id", async(req:Request, res:Response) => {
 		const user:object = await db.User.findAll({
 			include:{
 				model:db.Video,
+				where:{
+					UserId:req.params.id
+				},
+				attributes:{
+					exclude:[
+						"UserId",
+					]
+				}
 			}
 		})
 		res.json(user)

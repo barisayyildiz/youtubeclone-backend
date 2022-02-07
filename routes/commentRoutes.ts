@@ -72,7 +72,6 @@ router.get("/comments/user/:id", async (req:Request, res:Response) => {
 				exclude:[
 					"VideoId",
 					"UserId",
-
 				]
 			}
 		})
@@ -97,7 +96,7 @@ router.get("/comments/video/:id", async (req:Request, res:Response) => {
 			attributes:{
 				exclude:[
 					"VideoId",
-					"UserId",				
+					"UserId",
 				]
 			}
 		})

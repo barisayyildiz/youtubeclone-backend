@@ -28,6 +28,12 @@ module.exports = (sequelize:any, DataTypes:any) => {
 			// })
 			User.hasMany(models.Video)
 			User.hasMany(models.Comment)
+			
+			// WatchLater table
+			User.belongsToMany(models.Video,{
+				through:"WatchLater"
+			})
+
     }
   }
   User.init({
