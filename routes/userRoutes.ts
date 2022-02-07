@@ -91,4 +91,41 @@ router.delete("/user/:id", async (req:Request, res:Response) => {
 	}
 })
 
+// subscription
+router.post("/user/subscribe", async (req:Request, res:Response) => {
+	console.log(req.body)
+	try {
+		const sub = await db.Subscription.create({
+			...req.body
+		})
+		res.json(sub)
+	} catch (error) {
+		console.log(error)
+		res.json(error)
+	}
+})
+
+router.get("/user/subscribed/:id", async (req:Request, res:Response) => {
+	try {
+		const subscribed = await db.Subscription.findAll({
+			include:[{
+				model:db.User,
+				as:"subscribed"
+			}],
+			where:{
+				SubscriberId:req.params.id
+			},
+			attributes:[
+				"subscribed.id"
+			]
+		})
+		console.log(subscribed)
+		console.log("asd")
+		res.json(subscribed)
+	} catch (error) {
+		console.log(error)
+		res.json(error)
+	}
+})
+
 export default router
