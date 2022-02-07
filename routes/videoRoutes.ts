@@ -105,5 +105,17 @@ router.get("/videos/later/:id", async (req:Request, res:Response) => {
 	}
 })
 
+router.delete("/videos/later/:id", async (req:Request, res:Response) => {
+	try {
+		const later = await db.WatchLater.findByPk(req.params.id)
+		await later.destroy()
+		res.json({
+			msg:"successfully removed from watch later"
+		})
+	} catch (error) {
+		res.json(error)
+	}
+})
+
 
 export default router
