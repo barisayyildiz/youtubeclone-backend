@@ -151,5 +151,29 @@ router.get("/videos/history/:id", async (req:Request, res:Response) => {
 	}
 })
 
+router.get("/videos/subscribed/:id", async (req:Request, res:Response) => {
+	try {
+		const videos = await db.Subscription.findAll({
+			include:{
+				model:db.User,
+				as:"subscribed",
+				include:{
+					model: db.Video
+				}
+			},
+			attributes:[
+				"Subscription.SubscriberId"
+			],
+			where:{
+				SubscriberId:req.params.id
+			},
+		})
+		res.json(videos)
+	} catch (error) {
+		console.log(error)
+		res.json(error)
+	}
+})
+
 
 export default router

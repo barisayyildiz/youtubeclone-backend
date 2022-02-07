@@ -116,11 +116,9 @@ router.get("/user/subscribed/:id", async (req:Request, res:Response) => {
 				SubscriberId:req.params.id
 			},
 			attributes:[
-				"subscribed.id"
+				"Subscription.SubscriberId"
 			]
 		})
-		console.log(subscribed)
-		console.log("asd")
 		res.json(subscribed)
 	} catch (error) {
 		console.log(error)
