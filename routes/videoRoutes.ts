@@ -117,5 +117,39 @@ router.delete("/videos/later/:id", async (req:Request, res:Response) => {
 	}
 })
 
+router.post("/videos/history", async (req:Request, res:Response) => {
+	try {
+		const history = await db.WatchHistory.create({
+			...req.body
+		})
+		res.json(history)
+	} catch (error) {
+		res.json(error)
+	}
+})
+
+router.get("/videos/history/:id", async (req:Request, res:Response) => {
+	try {
+		const history = await db.WatchHistory.findAll({
+			include:[{
+				model:db.Video,
+				as:"video"
+			}],
+			where:{
+				UserId:req.params.id
+			},
+			attributes:{
+				exclude:[
+					"UserId",
+					"VideoId",
+				]
+			}
+		})
+		res.json(history)
+	} catch (error) {
+		res.json(error)
+	}
+})
+
 
 export default router

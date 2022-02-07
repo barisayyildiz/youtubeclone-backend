@@ -32,6 +32,9 @@ module.exports = (sequelize:any, DataTypes:any) => {
 			// WatchLater table
 			User.hasMany(models.WatchLater)
 
+			// WatchHistory table
+			User.hasMany(models.WatchHistory)
+
     }
   }
   User.init({

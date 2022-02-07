@@ -29,4 +29,7 @@ const {
 db.sequelize.sync().then(() => {
 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
 })
+// db.sequelize.sync({force:true}).then(() => {
+// 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
+// })
 
