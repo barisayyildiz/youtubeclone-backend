@@ -40,9 +40,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
 			Video.hasMany(models.Comment, {as:"comments"})
 
 			// WatchLater table
-			Video.belongsToMany(models.User,{
-				through:"WatchLater"
-			})
+			
 
 			
     }
