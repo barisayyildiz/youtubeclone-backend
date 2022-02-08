@@ -37,10 +37,10 @@ module.exports = (sequelize:any, DataTypes:any) => {
 				},
 				as:"user"
 			})
-			Video.hasMany(models.Comment, {as:"comments"})
+			Video.hasMany(models.Comment, {as:"comments", onDelete:'CASCADE'})
 
-			Video.hasMany(models.WatchLater)
-			Video.hasMany(models.WatchHistory)
+			Video.hasMany(models.WatchLater, {onDelete: 'CASCADE'})
+			Video.hasMany(models.WatchHistory, {onDelete: 'CASCADE'})
 
 			
     }
