@@ -26,14 +26,17 @@ module.exports = (sequelize:any, DataTypes:any) => {
 			// User.belongsToMany(models.Project, {
 			// 	through:"ProjectAssignment"
 			// })
-			User.hasMany(models.Video, {onDelete: 'CASCADE'})
-			User.hasMany(models.Comment, {onDelete: 'CASCADE'})
+			User.hasMany(models.Video, {onDelete: 'CASCADE', hooks:true})
+			User.hasMany(models.Comment, {onDelete: 'CASCADE', hooks:true})
 			
 			// WatchLater table
-			User.hasMany(models.WatchLater, {onDelete: 'CASCADE'})
+			User.hasMany(models.WatchLater, {onDelete: 'CASCADE', hooks:true})
 
 			// WatchHistory table
-			User.hasMany(models.WatchHistory, {onDelete: 'CASCADE'})
+			User.hasMany(models.WatchHistory, {onDelete: 'CASCADE', hooks:true})
+
+			// Subscription table
+			User.hasMany(models.Subscription, {onDelete: 'CASCADE', hooks:true})
 
     }
   }
