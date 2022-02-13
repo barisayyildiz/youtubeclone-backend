@@ -2,6 +2,8 @@ require('dotenv').config()
 import jwt from "jsonwebtoken"
 import db from "../../models"
 import bcrypt from "bcrypt"
+import { Request, Response, NextFunction } from 'express';
+
 
 const User = db.User
 
@@ -34,3 +36,17 @@ export function passwordCompare(plaintext:string, hashed:string):Promise<boolean
 	})
 }
 
+export function verifyToken(req:Request, res:Response, next:NextFunction){
+	const bearerHeader = req.headers['authorization'];
+	if(bearerHeader){
+		const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
+		req.user = jwt.verify(bearerToken, JWT_SECRET_KEY!)
+    next();
+	}else{
+		res.status(403).json({
+			msg:'user not logged in'
+		})
+	}
+}

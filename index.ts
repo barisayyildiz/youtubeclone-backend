@@ -17,6 +17,8 @@ import googleRoutes from "./routes/googleAuthRoutes"
 // local auth routes
 import localAuthRoutes from "./routes/localAuthRoutes"
 
+import { verifyToken } from "./auth/util"
+
 const app = express()
 
 app.use(cors())
@@ -34,6 +36,10 @@ app.use("/api", commentRoutes)
 
 app.use("/api", googleRoutes)
 app.use("/api/auth", localAuthRoutes)
+
+app.use("/", verifyToken, (req:Request, res:Response) => {
+	res.send(req.body)
+})
 
 const {
 	PORT
