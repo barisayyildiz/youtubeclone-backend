@@ -8,6 +8,7 @@ interface UserAttributes {
 	username: string;
 	email: string;
 	password: string;
+	googleId: string;
 }
 
 module.exports = (sequelize:any, DataTypes:any) => {
@@ -21,6 +22,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
 		username!:string;
 		email!:string;
 		password!:string;
+		googleId!:string;
     static associate(models:any) {
       // define association here
 			// User.belongsToMany(models.Project, {
@@ -60,6 +62,10 @@ module.exports = (sequelize:any, DataTypes:any) => {
 		password:{
 			type:DataTypes.STRING,
 			allowNull:false
+		},
+		googleId:{
+			type:DataTypes.STRING,
+			allowNull:true
 		}
   }, {
     sequelize,
