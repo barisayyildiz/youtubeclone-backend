@@ -2,7 +2,7 @@ require('dotenv').config()
 import express, { Request, Response } from "express"
 import db from "../models"
 import bcrypt from "bcrypt"
-import { signJWT } from "../auth/util"
+import { signJWT, passwordCompare } from "../auth/util"
 import { Op } from "sequelize"
 
 const {
@@ -49,9 +49,10 @@ router.post("/signup", async(req:Request, res:Response) => {
 router.post("/login", async (req:Request, res:Response) => {
 	try{
 		const {username, password} = req.body
-		const user = db.User.findOne({
+		
+		const user = await db.User.findOne({
 			where:{
-				username
+				username:username
 			}
 		})
 
@@ -61,10 +62,11 @@ router.post("/login", async (req:Request, res:Response) => {
 			})
 		}
 
-		const matching = await bcrypt.compare(password, user.password)
+		const matching = await passwordCompare(password, user.password)
+		
 		if(!matching){
-			res.json({
-				msg:'password is not correct'
+			return res.json({
+				msg:'password is incorrect'
 			})
 		}
 
@@ -79,8 +81,8 @@ router.post("/login", async (req:Request, res:Response) => {
 			token
 		})
 
-
 	}catch(error){
+		console.log(error)
 		res.json(error)
 	}
 })
