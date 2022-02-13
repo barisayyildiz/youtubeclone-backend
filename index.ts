@@ -14,6 +14,9 @@ import commentRoutes from "./routes/commentRoutes"
 // google auth routes
 import googleRoutes from "./routes/googleAuthRoutes"
 
+// local auth routes
+import localAuthRoutes from "./routes/localAuthRoutes"
+
 const app = express()
 
 app.use(cors())
@@ -30,6 +33,7 @@ app.use("/api", videoRoutes)
 app.use("/api", commentRoutes)
 
 app.use("/api", googleRoutes)
+app.use("/api/auth", localAuthRoutes)
 
 const {
 	PORT

@@ -52,7 +52,13 @@ router.get(`/${redirectUri}`, async (req:Request, res:Response) => {
 		})
 	}
 
-	const token = jwt.sign(googleUser, JWT_SECRET_KEY!)
+	// const token = jwt.sign(googleUser, JWT_SECRET_KEY!)
+	const token = jwt.sign({
+		id:user.id,
+		username:user.username,
+		email:user.email
+	}, JWT_SECRET_KEY!)
+	
 	res.cookie(COOKIE_NAME!, token, {
     maxAge: 900000,
     httpOnly: true,
