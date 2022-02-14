@@ -8,7 +8,11 @@ import cookieParser from "cookie-parser";
 import db from "./models"
 
 import userRoutes from "./routes/userRoutes"
-import videoRoutes from "./routes/videoRoutes"
+
+// video routes
+import videoRoutes from "./routes/video/videoRoutes"
+import watchLaterRoutes from "./routes/video/watchLaterRoutes"
+
 import commentRoutes from "./routes/commentRoutes"
 
 // google auth routes
@@ -31,11 +35,17 @@ app.use(express.urlencoded({
 }));
 
 app.use("/api", userRoutes)
-app.use("/api", videoRoutes)
+app.use("/api/videos", videoRoutes)
+app.use("/api/videos/later", watchLaterRoutes)
+
 app.use("/api", commentRoutes)
 
 app.use("/api", googleRoutes)
 app.use("/api/auth", localAuthRoutes)
+
+app.use("/api", verifyToken, (req:Request, res:Response) => {
+	res.json(req.user)
+})
 
 const {
 	PORT

@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express"
-import db from "../models"
+import { verifyToken } from "../../auth/util"
+import db from "../../models"
 
 const router = express.Router()
 
-router.get("/videos", async (req:Request, res:Response) => {
+router.get("/", async (req:Request, res:Response) => {
 	try{
 		const videos = await db.Video.findAll()
 		res.json(videos)
@@ -12,7 +13,7 @@ router.get("/videos", async (req:Request, res:Response) => {
 	}
 })
 
-router.get("/video/:id", async (req:Request, res:Response) => {
+router.get("/:id", async (req:Request, res:Response) => {
 	try{
 		const video = await db.Video.findByPk(req.params.id)
 		res.json(video)
@@ -21,7 +22,7 @@ router.get("/video/:id", async (req:Request, res:Response) => {
 	}
 })
 
-router.post("/video", async (req:Request, res:Response) => {
+router.post("/", async (req:Request, res:Response) => {
 	try{
 		const video = await db.Video.create({
 			...req.body
@@ -32,7 +33,7 @@ router.post("/video", async (req:Request, res:Response) => {
 	}
 })
 
-router.put("/video/:id", async (req:Request, res:Response) => {
+router.put("/:id", async (req:Request, res:Response) => {
 	try{
 		const video = await db.Video.findByPk(req.params.id)
 		video.set({
@@ -45,7 +46,7 @@ router.put("/video/:id", async (req:Request, res:Response) => {
 	}
 })
 
-router.delete("/video/:id", async (req:Request, res:Response) => {
+router.delete("/:id", async (req:Request, res:Response) => {
 	try{
 		const video = await db.Video.findByPk(req.params.id)
 		await video.destroy()
@@ -57,7 +58,7 @@ router.delete("/video/:id", async (req:Request, res:Response) => {
 	}
 })
 
-router.get("/videos/user/:id", async (req:Request, res:Response) =>  {
+router.get("/user/:id", async (req:Request, res:Response) =>  {
 	try{
 		const videos = await db.Video.findAll({
 			where:{
@@ -70,54 +71,7 @@ router.get("/videos/user/:id", async (req:Request, res:Response) =>  {
 	}
 })
 
-
-router.post("/videos/later", async (req:Request, res:Response) => {
-	try{
-		const later = await db.WatchLater.create({
-			...req.body
-		})
-		res.json(later)
-	}catch(error){
-		res.json(error)
-	}
-})
-
-router.get("/videos/later/:id", async (req:Request, res:Response) => {
-	try {
-		const laters = await db.WatchLater.findAll({
-			include:[{
-				model:db.Video,
-				as:"video"
-			}],			
-			where:{
-				UserId:req.params.id
-			},
-			attributes:{
-				exclude:[
-					"UserId",
-					"VideoId",
-				]
-			}
-		})
-		res.json(laters)
-	} catch (error) {
-		res.json(error)
-	}
-})
-
-router.delete("/videos/later/:id", async (req:Request, res:Response) => {
-	try {
-		const later = await db.WatchLater.findByPk(req.params.id)
-		await later.destroy()
-		res.json({
-			msg:"successfully removed from watch later"
-		})
-	} catch (error) {
-		res.json(error)
-	}
-})
-
-router.post("/videos/history", async (req:Request, res:Response) => {
+router.post("/history", async (req:Request, res:Response) => {
 	try {
 		const history = await db.WatchHistory.create({
 			...req.body
@@ -128,7 +82,7 @@ router.post("/videos/history", async (req:Request, res:Response) => {
 	}
 })
 
-router.get("/videos/history/:id", async (req:Request, res:Response) => {
+router.get("/history/:id", async (req:Request, res:Response) => {
 	try {
 		const history = await db.WatchHistory.findAll({
 			include:[{
@@ -151,7 +105,7 @@ router.get("/videos/history/:id", async (req:Request, res:Response) => {
 	}
 })
 
-router.get("/videos/subscribed/:id", async (req:Request, res:Response) => {
+router.get("/subscribed/:id", async (req:Request, res:Response) => {
 	try {
 		const videos = await db.Subscription.findAll({
 			include:{
