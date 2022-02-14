@@ -14,6 +14,7 @@ import subscriptionRoutes from "./routes/user/subscriptionRoutes"
 // video routes
 import videoRoutes from "./routes/video/videoRoutes"
 import watchLaterRoutes from "./routes/video/watchLaterRoutes"
+import watchHistoryRoutes from "./routes/video/watchHistoryRoutes"
 
 import commentRoutes from "./routes/commentRoutes"
 
@@ -41,6 +42,7 @@ app.use("/api/users/subscription", subscriptionRoutes)
 
 app.use("/api/videos", videoRoutes)
 app.use("/api/videos/later", watchLaterRoutes)
+app.use("/api/videos/history", watchHistoryRoutes)
 
 app.use("/api", commentRoutes)
 
