@@ -2,7 +2,7 @@ require('dotenv').config()
 import express, { Request, Response } from "express"
 import db from "../models"
 import bcrypt from "bcrypt"
-import { signJWT, passwordCompare } from "../auth/util"
+import { signJWT, passwordCompare, verifyToken } from "../auth/util"
 import { Op } from "sequelize"
 
 const {
@@ -88,7 +88,12 @@ router.post("/login", async (req:Request, res:Response) => {
 })
 
 
+router.post("/logout", verifyToken, (req:Request, res:Response) => {
+	res.clearCookie(COOKIE_NAME!);
+	res.json({
+		msg:'user logged out'
+	})
+})
 
 
 export default router
-

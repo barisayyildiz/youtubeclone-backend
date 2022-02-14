@@ -37,10 +37,6 @@ app.use("/api", commentRoutes)
 app.use("/api", googleRoutes)
 app.use("/api/auth", localAuthRoutes)
 
-app.use("/api", verifyToken, (req:Request, res:Response) => {
-	res.json(req.user)
-})
-
 const {
 	PORT
 } = process.env
