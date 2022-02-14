@@ -92,7 +92,7 @@ router.delete("/user/:id", async (req:Request, res:Response) => {
 })
 
 // subscription
-router.post("/user/subscribe", async (req:Request, res:Response) => {
+router.post("/user/subscription", async (req:Request, res:Response) => {
 	console.log(req.body)
 	try {
 		const sub = await db.Subscription.create({
@@ -105,7 +105,7 @@ router.post("/user/subscribe", async (req:Request, res:Response) => {
 	}
 })
 
-router.get("/user/subscribed/:id", async (req:Request, res:Response) => {
+router.get("/user/subscription/:id", async (req:Request, res:Response) => {
 	try {
 		const subscribed = await db.Subscription.findAll({
 			include:[{
@@ -116,12 +116,27 @@ router.get("/user/subscribed/:id", async (req:Request, res:Response) => {
 				SubscriberId:req.params.id
 			},
 			attributes:[
+				"id",
+				"createdAt",
+				"updatedAt",
 				"Subscription.SubscriberId"
 			]
 		})
 		res.json(subscribed)
 	} catch (error) {
 		console.log(error)
+		res.json(error)
+	}
+})
+
+router.delete("/user/subscription/:id", async (req:Request, res:Response) => {
+	try{
+		const subscription = await db.Subscription.findByPk(req.params.id)
+		await subscription.destroy()
+		res.json({
+			msg:'subscription removed'
+		})
+	}catch(error){
 		res.json(error)
 	}
 })
