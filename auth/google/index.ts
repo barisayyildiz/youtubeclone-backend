@@ -46,22 +46,3 @@ export function getGoogleUser({
     });
 }
 
-
-// export function getGoogleUser(
-// 	access_token:string, id_token:string
-// ):Promise<any>{
-// 	return axios
-//     .get(
-//       `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`,
-//       {
-//         headers: {
-//           Authorization: `Bearer ${id_token}`,
-//         },
-//       }
-//     )
-//     .then((res) => res.data)
-//     .catch((error) => {
-//       console.error(`Failed to fetch user`);
-//       throw new Error(error.message);
-//     });
-// }
