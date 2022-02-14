@@ -24,10 +24,6 @@ module.exports = (sequelize:any, DataTypes:any) => {
 		password!:string;
 		googleId!:string;
     static associate(models:any) {
-      // define association here
-			// User.belongsToMany(models.Project, {
-			// 	through:"ProjectAssignment"
-			// })
 			User.hasMany(models.Video, {onDelete: 'CASCADE', hooks:true})
 			User.hasMany(models.Comment, {onDelete: 'CASCADE', hooks:true})
 			
