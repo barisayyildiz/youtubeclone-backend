@@ -1,10 +1,7 @@
 require('dotenv').config()
-
 import express, { Request, Response } from "express"
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
-
 import db from "./models"
 
 // user routes
@@ -16,15 +13,12 @@ import videoRoutes from "./routes/video/videoRoutes"
 import watchLaterRoutes from "./routes/video/watchLaterRoutes"
 import watchHistoryRoutes from "./routes/video/watchHistoryRoutes"
 
-import commentRoutes from "./routes/commentRoutes"
+// comment route
+import commentRoutes from "./routes/comment/commentRoutes"
 
-// google auth routes
-import googleRoutes from "./routes/googleAuthRoutes"
-
-// local auth routes
-import localAuthRoutes from "./routes/localAuthRoutes"
-
-import { verifyToken } from "./auth/util"
+// auth routes
+import googleRoutes from "./routes/auth/googleAuthRoutes"
+import localAuthRoutes from "./routes/auth/localAuthRoutes"
 
 const app = express()
 

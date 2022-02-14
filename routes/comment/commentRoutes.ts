@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express"
-import db from "../models"
+import db from "../../models"
 
 const router = express()
 

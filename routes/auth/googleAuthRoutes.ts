@@ -2,8 +2,8 @@ require('dotenv').config()
 import express, { Request, Response } from "express"
 import jwt from "jsonwebtoken"
 import { v4 as uuidv4 } from "uuid"
-import { getGoogleAuthUrl, oauth2Client, getGoogleUser } from "../auth/google"
-import db from "../models"
+import { getGoogleAuthUrl, oauth2Client, getGoogleUser } from "../../auth/google"
+import db from "../../models"
 
 const {
 	GOOGLE_CLIENT_REDIRECT : redirectUri,

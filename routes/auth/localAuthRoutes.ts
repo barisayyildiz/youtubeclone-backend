@@ -1,8 +1,8 @@
 require('dotenv').config()
 import express, { Request, Response } from "express"
-import db from "../models"
+import db from "../../models"
 import bcrypt from "bcrypt"
-import { signJWT, passwordCompare, verifyToken } from "../auth/util"
+import { signJWT, passwordCompare, verifyToken } from "../../auth/util"
 import { Op } from "sequelize"
 
 const {
