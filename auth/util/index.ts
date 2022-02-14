@@ -4,6 +4,14 @@ import db from "../../models"
 import bcrypt from "bcrypt"
 import { Request, Response, NextFunction } from 'express';
 
+declare global{
+	namespace Express{
+		interface Request{
+			user:any;
+			token:string;
+		}
+	}
+}
 
 const User = db.User
 
@@ -37,16 +45,20 @@ export function passwordCompare(plaintext:string, hashed:string):Promise<boolean
 }
 
 export function verifyToken(req:Request, res:Response, next:NextFunction){
-	const bearerHeader = req.headers['authorization'];
-	if(bearerHeader){
-		const bearer = bearerHeader.split(' ');
-    const bearerToken = bearer[1];
-    req.token = bearerToken;
-		req.user = jwt.verify(bearerToken, JWT_SECRET_KEY!)
-    next();
-	}else{
-		res.status(403).json({
-			msg:'user not logged in'
-		})
+	try{
+		const bearerHeader = req.headers['authorization'];
+		if(bearerHeader){
+			const bearer = bearerHeader.split(' ');
+			const bearerToken = bearer[1];
+			req.token = bearerToken;
+			req.user = jwt.verify(bearerToken, JWT_SECRET_KEY!)
+			next();
+		}else{
+			res.status(403).json({
+				msg:'user not logged in'
+			})
+		}
+	}catch(error){
+		res.status(400).json(error)
 	}
 }

@@ -37,20 +37,20 @@ app.use("/api", commentRoutes)
 app.use("/api", googleRoutes)
 app.use("/api/auth", localAuthRoutes)
 
-app.use("/", verifyToken, (req:Request, res:Response) => {
-	res.send(req.body)
+app.use("/api", verifyToken, (req:Request, res:Response) => {
+	res.json(req.user)
 })
 
 const {
 	PORT
 } = process.env
 
-// db.sequelize.sync().then(() => {
-// 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
-// })
-db.sequelize.sync({force:true}).then(() => {
+db.sequelize.sync().then(() => {
 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
 })
+// db.sequelize.sync({force:true}).then(() => {
+// 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
+// })
 
 // app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
 
