@@ -66,10 +66,14 @@ export async function verifyToken(req:Request, res:Response, next:NextFunction){
 					"id",
 					"username",
 					"email",
-					"googleId"
+					"googleId",
+					"isAdmin"
 				]
 			})
+			console.log("decoded : ", decoded)
 			req.user = user
+			console.log("inside verifyToken......")
+			console.log(req.user === null)
 		
 			next();
 		}else{
@@ -85,8 +89,9 @@ export async function verifyToken(req:Request, res:Response, next:NextFunction){
 export function verifyAdmin(req:Request, res:Response, next:NextFunction){
 	if(req.user.isAdmin){
 		next()
+	}else{
+		return next({
+			msg:'authorization denied, only for admins!'
+		})
 	}
-	return next({
-		msg:'authorization denied, only for admins!'
-	})
 }

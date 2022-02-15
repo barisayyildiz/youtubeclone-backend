@@ -22,6 +22,8 @@ import localAuthRoutes from "./routes/auth/localAuthRoutes"
 
 import { verifyToken } from "./auth/util"
 
+import insertInitialData from "./seeders/user"
+
 const app = express()
 
 app.use(cors())
@@ -53,12 +55,13 @@ const {
 	PORT
 } = process.env
 
-// db.sequelize.sync().then(() => {
-// 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
-// })
-db.sequelize.sync({force:true}).then(() => {
+db.sequelize.sync().then(() => {
 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
 })
+// db.sequelize.sync({force:true}).then(() => {
+// 	insertInitialData()
+// 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
+// })
 
 // app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
 

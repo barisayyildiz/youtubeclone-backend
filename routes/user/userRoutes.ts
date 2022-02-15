@@ -1,13 +1,23 @@
 import express, { Request, Response } from "express"
 import bcrypt from "bcrypt"
-import { verifyToken } from "../../auth/util"
+import { verifyToken, verifyAdmin } from "../../auth/util"
 import db from "../../models"
+
+import { 
+	getAllUsers,
+	getUserById,
+	getUserByIdWithVideos,
+	getUserByIdWithComments,
+	createUser,
+	updateUser,
+	deleteUser,
+} from "../../controllers/user"
 
 const router = express.Router()
 
 router.get("/", async (req:Request, res:Response) => {
 	try{
-		const users:object = await db.User.findAll({})
+		const users:any = await getAllUsers()
 		res.json(users)
 	}catch(error){
 		res.json(error)
@@ -16,7 +26,7 @@ router.get("/", async (req:Request, res:Response) => {
 
 router.get("/:id", async (req:Request, res:Response) => {
 	try{
-		const user:object = await db.User.findByPk(req.params.id)
+		const user:any = await getUserById(req.params.id)
 		res.json(user)
 	}catch(error){
 		res.json(error)
@@ -25,78 +35,45 @@ router.get("/:id", async (req:Request, res:Response) => {
 
 router.get("/videos/:id", async(req:Request, res:Response) => {
 	try{
-		const user:object = await db.User.findAll({
-			include:{
-				model:db.Video,
-				where:{
-					UserId:req.params.id
-				},
-				attributes:{
-					exclude:[
-						"UserId",
-					]
-				}
-			}
-		})
+		const user:any = await getUserByIdWithVideos(req.params.id)
 		res.json(user)
 	}catch(error){
 		res.json(error)
 	}
 })
 
-router.get("/comments/:id", async(req:Request, res:Response) => {
+router.get("/comments/:id", verifyToken, verifyAdmin, async(req:Request, res:Response) => {
 	try{
-		const user:object = await db.User.findAll({
-			include:{
-				model:db.Comment,
-			},
-			where:{
-				id:req.params.id
-			}
-		})
+		const user:any = await getUserByIdWithComments(req.params.id)
 		res.json(user)
 	}catch(error){
 		res.json(error)
 	}
 })
 
-router.post("/", async(req:Request, res:Response) => {
+router.post("/", verifyToken, verifyAdmin, async(req:Request, res:Response) => {
 	try{
-		const { password } = req.body
-		const salt = await bcrypt.genSalt()
-		const hashed = await bcrypt.hash(password, salt)
-
-		const user = await db.User.create({
-			...req.body,
-			password:hashed
-		})
-	
+		console.log("post user endpoint")
+		const user:any = await createUser(req.body)
+		console.log(user)	
 		res.json(user)
 	}catch(error){
 		res.json(error)
 	}
 })
 
-router.put("/:id", async (req:Request, res:Response) => {
+router.put("/:id", verifyToken, async (req:Request, res:Response) => {
 	try{
-		const user = await db.User.findByPk(req.params.id)
-		user.set({
-			...req.body
-		})
-		await user.save()
+		const user = await updateUser(req.params.id, req.body)
 		res.json(user)
 	}catch(error){
 		res.json(error)
 	}
 })
 
-router.delete("/:id", async (req:Request, res:Response) => {
+router.delete("/:id", verifyToken, verifyAdmin, async (req:Request, res:Response) => {
 	try {
-		const user = await db.User.findByPk(req.params.id)
-		await user.destroy()
-		res.json({
-			msg:"user successfully removed"
-		})
+		await deleteUser(req.params.id)
 	} catch (error) {
 		res.json(error)
 	}

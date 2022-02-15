@@ -65,6 +65,5 @@ export async function updateUser(id:string, params:any){
 export async function deleteUser(id:string){
 	const user = await db.User.findByPk(id)
 	await user.destroy()
-	return user
 }
 
