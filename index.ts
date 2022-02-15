@@ -21,6 +21,7 @@ import googleRoutes from "./routes/auth/googleAuthRoutes"
 import localAuthRoutes from "./routes/auth/localAuthRoutes"
 
 import userRoutes from "./routes/user"
+import videoRoutes from "./routes/video"
 
 import { verifyToken } from "./auth/util"
 
@@ -49,7 +50,8 @@ app.use(express.urlencoded({
 app.use("/api", googleRoutes)
 app.use("/api/auth", localAuthRoutes)
 
-app.use("/api", userRoutes)
+app.use("/api/users", userRoutes)
+app.use("/api/videos", videoRoutes)
 
 // app.use("/api", verifyToken, (req:Request, res:Response) => {
 // 	res.json(req.user)

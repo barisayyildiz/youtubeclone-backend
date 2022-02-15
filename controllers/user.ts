@@ -5,7 +5,16 @@ import bcrypt from "bcrypt"
 
 export const getUserById = async (id:string, req:Request, res:Response, next:NextFunction) => {
 	try{
-		const user:any = await db.User.findByPk(id)
+		const user:any = await db.User.findOne({
+			where:{
+				id
+			},			
+			include:[
+				{
+					model:db.Video,
+				}
+			]
+		})
 		res.json(user)		
 	}catch(error){
 		res.json(error)
