@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express"
 import db from "../models"
-import bcrypt from "bcrypt"
 
 export const createComment = async (req:Request, res:Response, next:NextFunction) => {
 	try {

@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction, response } from "express"
 import db from "../models"
-import bcrypt from "bcrypt"
 
 export const getVideoById = async (req:Request, res:Response, next:NextFunction) => {
 	try{

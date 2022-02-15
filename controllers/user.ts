@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from "express"
 import db from "../models"
-import bcrypt from "bcrypt"
-
 
 export const getUserById = async (id:string, req:Request, res:Response, next:NextFunction) => {
 	try{
