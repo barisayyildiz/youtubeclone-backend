@@ -22,6 +22,7 @@ import localAuthRoutes from "./routes/auth/localAuthRoutes"
 
 import userRoutes from "./routes/user"
 import videoRoutes from "./routes/video"
+import commentRoutes from "./routes/comment"
 
 import { verifyToken } from "./auth/util"
 
@@ -52,6 +53,7 @@ app.use("/api/auth", localAuthRoutes)
 
 app.use("/api/users", userRoutes)
 app.use("/api/videos", videoRoutes)
+app.use("/api/comments", commentRoutes)
 
 // app.use("/api", verifyToken, (req:Request, res:Response) => {
 // 	res.json(req.user)
