@@ -33,6 +33,15 @@ router.get("/:id", async (req:Request, res:Response) => {
 	}
 })
 
+router.get("/profile", verifyToken, async (req:Request, res:Response) => {
+	try{
+		const user:any = await getUserById(req.user.id)
+		res.json(user)
+	}catch(error){
+		res.json(error)
+	}
+})
+
 router.get("/videos/:id", async(req:Request, res:Response) => {
 	try{
 		const user:any = await getUserByIdWithVideos(req.params.id)

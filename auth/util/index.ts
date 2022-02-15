@@ -70,10 +70,13 @@ export async function verifyToken(req:Request, res:Response, next:NextFunction){
 					"isAdmin"
 				]
 			})
-			console.log("decoded : ", decoded)
+			if(!user){
+				res.status(400).json({
+					msg:'user not found'
+				})
+			}
+
 			req.user = user
-			console.log("inside verifyToken......")
-			console.log(req.user === null)
 		
 			next();
 		}else{
