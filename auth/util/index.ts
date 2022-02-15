@@ -13,6 +13,10 @@ declare global{
 	}
 }
 
+interface UserIDJwtPayload extends jwt.JwtPayload {
+	userId: string
+}
+
 const User = db.User
 
 const {
@@ -44,14 +48,29 @@ export function passwordCompare(plaintext:string, hashed:string):Promise<boolean
 	})
 }
 
-export function verifyToken(req:Request, res:Response, next:NextFunction){
+export async function verifyToken(req:Request, res:Response, next:NextFunction){
 	try{
 		const bearerHeader = req.headers['authorization'];
 		if(bearerHeader){
 			const bearer = bearerHeader.split(' ');
 			const bearerToken = bearer[1];
 			req.token = bearerToken;
-			req.user = jwt.verify(bearerToken, JWT_SECRET_KEY!)
+			
+			// get user
+			const decoded = <UserIDJwtPayload>jwt.verify(bearerToken, JWT_SECRET_KEY!)
+			const user = await db.User.findOne({
+				where:{
+					id:decoded.id
+				},
+				attributes:[
+					"id",
+					"username",
+					"email",
+					"googleId"
+				]
+			})
+			req.user = user
+		
 			next();
 		}else{
 			res.status(403).json({
@@ -61,4 +80,13 @@ export function verifyToken(req:Request, res:Response, next:NextFunction){
 	}catch(error){
 		res.status(400).json(error)
 	}
+}
+
+export function verifyAdmin(req:Request, res:Response, next:NextFunction){
+	if(req.user.isAdmin){
+		next()
+	}
+	return next({
+		msg:'authorization denied, only for admins!'
+	})
 }

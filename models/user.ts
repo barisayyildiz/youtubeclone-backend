@@ -9,6 +9,7 @@ interface UserAttributes {
 	email: string;
 	password: string;
 	googleId: string;
+	isAdmin:boolean;
 }
 
 module.exports = (sequelize:any, DataTypes:any) => {
@@ -23,6 +24,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
 		email!:string;
 		password!:string;
 		googleId!:string;
+		isAdmin!:boolean;
     static associate(models:any) {
 			User.hasMany(models.Video, {onDelete: 'CASCADE', hooks:true})
 			User.hasMany(models.Comment, {onDelete: 'CASCADE', hooks:true})
@@ -62,6 +64,11 @@ module.exports = (sequelize:any, DataTypes:any) => {
 		googleId:{
 			type:DataTypes.STRING,
 			allowNull:true
+		},
+		isAdmin:{
+			type:DataTypes.BOOLEAN,
+			allowNull:false,
+			defaultValue:false
 		}
   }, {
     sequelize,

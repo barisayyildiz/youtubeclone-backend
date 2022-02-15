@@ -20,6 +20,8 @@ import commentRoutes from "./routes/comment/commentRoutes"
 import googleRoutes from "./routes/auth/googleAuthRoutes"
 import localAuthRoutes from "./routes/auth/localAuthRoutes"
 
+import { verifyToken } from "./auth/util"
+
 const app = express()
 
 app.use(cors())
@@ -51,12 +53,12 @@ const {
 	PORT
 } = process.env
 
-db.sequelize.sync().then(() => {
-	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
-})
-// db.sequelize.sync({force:true}).then(() => {
+// db.sequelize.sync().then(() => {
 // 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
 // })
+db.sequelize.sync({force:true}).then(() => {
+	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
+})
 
 // app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
 

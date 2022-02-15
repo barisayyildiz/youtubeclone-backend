@@ -1,4 +1,6 @@
 import express, { Request, Response } from "express"
+import bcrypt from "bcrypt"
+import { verifyToken } from "../../auth/util"
 import db from "../../models"
 
 const router = express.Router()
@@ -60,9 +62,15 @@ router.get("/comments/:id", async(req:Request, res:Response) => {
 
 router.post("/", async(req:Request, res:Response) => {
 	try{
+		const { password } = req.body
+		const salt = await bcrypt.genSalt()
+		const hashed = await bcrypt.hash(password, salt)
+
 		const user = await db.User.create({
-			...req.body
+			...req.body,
+			password:hashed
 		})
+	
 		res.json(user)
 	}catch(error){
 		res.json(error)
