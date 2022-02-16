@@ -146,8 +146,6 @@ export const removeFromWatchLater = async (req:Request, res:Response, next:NextF
 }
 
 export const toggleVideoLike = async (req:Request, res:Response, next:NextFunction) => {
-	console.log("req.params : ", req.params)
-	console.log("req.params.id : ", req.params.id)
 	try{
 		let videoLike = await db.VideoLike.findOne({
 			where:{

@@ -52,6 +52,12 @@ module.exports = (sequelize:any, DataTypes:any) => {
 			// VideoDislike table
 			Video.hasMany(models.VideoDislike, {onDelete:'CASCADE', hooks:true})
 
+			// CommentLike table
+			Video.hasMany(models.CommentLike, {onDelete:'CASCADE', hooks:true})
+
+			// CommentDislike table
+			Video.hasMany(models.CommentDislike, {onDelete:'CASCADE', hooks:true})
+
 			
     }
   }

@@ -85,6 +85,85 @@ export const updateComment = async (req:Request, res:Response, next:NextFunction
 	}
 }
 
+export const toggleCommentLike = async (req:Request, res:Response, next:NextFunction) => {
+	try{
+		let commentLike = await db.CommentLike.findOne({
+			where:{
+				UserId:req.user.id,
+				VideoId:req.params.id
+			}
+		})
+		let commentDislike = await db.CommentDislike.findOne({
+			where:{
+				UserId:req.user.id,
+				VideoId:req.params.id
+			}
+		})
+		
+		// remove dislike if exists
+		if(commentDislike){
+			await commentDislike.destroy()
+		}
+
+		if(!commentLike){
+			console.log("path1")
+			commentLike = await db.CommentLike.create({
+				VideoId:req.params.id,
+				UserId:req.user.id
+			})
+			res.json(commentLike)
+		}else{
+			console.log("path2")
+			await commentLike.destroy()
+			res.json({
+				msg:'video like removed'
+			})
+		}
+
+	}catch(error){
+		res.json(error)
+	}
+}
+
+export const toggleCommentDislike = async (req:Request, res:Response, next:NextFunction) => {
+	try{
+		let commentLike = await db.CommentLike.findOne({
+			where:{
+				UserId:req.user.id,
+				VideoId:req.params.id
+			}
+		})
+		let commentDislike = await db.CommentDislike.findOne({
+			where:{
+				UserId:req.user.id,
+				VideoId:req.params.id
+			}
+		})
+		
+		// remove like if exists
+		if(commentLike){
+			await commentLike.destroy()
+		}
+
+		if(!commentDislike){
+			console.log("path1")
+			commentDislike = await db.CommentDislike.create({
+				VideoId:req.params.id,
+				UserId:req.user.id
+			})
+			res.json(commentDislike)
+		}else{
+			console.log("path2")
+			await commentDislike.destroy()
+			res.json({
+				msg:'video like removed'
+			})
+		}
+
+	}catch(error){
+		res.json(error)
+	}
+}
 
 
 
