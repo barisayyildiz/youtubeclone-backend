@@ -38,6 +38,12 @@ module.exports = (sequelize:any, DataTypes:any) => {
 			// Subscription table
 			User.hasMany(models.Subscription, {onDelete: 'CASCADE', hooks:true})
 
+			// VideoLike table
+			User.hasMany(models.VideoLike, {onDelete:'CASCADE', hooks:true})
+
+			// VideoDislike table
+			User.hasMany(models.VideoDislike, {onDelete:'CASCADE', hooks:true})
+
     }
   }
   User.init({

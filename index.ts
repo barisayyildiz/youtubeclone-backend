@@ -35,11 +35,11 @@ const {
 	PORT
 } = process.env
 
-// db.sequelize.sync().then(() => {
-// 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
-// })
-db.sequelize.sync({force:true}).then(() => {
-	insertInitialData()
+db.sequelize.sync().then(() => {
 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
 })
+// db.sequelize.sync({force:true}).then(() => {
+// 	insertInitialData()
+// 	app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))	
+// })
 

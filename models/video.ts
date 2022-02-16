@@ -37,10 +37,20 @@ module.exports = (sequelize:any, DataTypes:any) => {
 				},
 				as:"user"
 			})
+			// Comment table
 			Video.hasMany(models.Comment, {onDelete: 'CASCADE', hooks:true})
 
+			// WatchLater table
 			Video.hasMany(models.WatchLater, {onDelete: 'CASCADE', hooks:true})
+
+			// WatchHistory table
 			Video.hasMany(models.WatchHistory, {onDelete: 'CASCADE', hooks:true})
+
+			// VideoLike table
+			Video.hasMany(models.VideoLike, {onDelete:'CASCADE', hooks:true})
+
+			// VideoDislike table
+			Video.hasMany(models.VideoDislike, {onDelete:'CASCADE', hooks:true})
 
 			
     }

@@ -2,7 +2,18 @@ import express, { NextFunction, Request, Response } from "express"
 import bcrypt from "bcrypt"
 import db from "../models"
 import { verifyToken } from "../auth/util"
-import { getVideosByUserId, createVideo, removeVideo, updateVideo, addToWatchLater, removeFromWatchLater, getVideoById, getWatchLaterList } from "../controllers/video"
+import { 
+	getVideosByUserId, 
+	createVideo, 
+	removeVideo, 
+	updateVideo, 
+	addToWatchLater, 
+	removeFromWatchLater, 
+	getVideoById, 
+	getWatchLaterList,
+	toggleVideoLike,
+	toggleVideoDislike
+} from "../controllers/video"
 
 const router = express.Router()
 
@@ -36,6 +47,12 @@ router.delete("/later/:id", verifyToken, removeFromWatchLater)
 
 // watch later listesini getirme
 router.get("/later", verifyToken, getWatchLaterList)
+
+// toggle video like
+router.put("/like/:id", verifyToken, toggleVideoLike)
+
+// toggle video dislike
+router.put("/dislike/:id", verifyToken, toggleVideoDislike)
 
 
 
