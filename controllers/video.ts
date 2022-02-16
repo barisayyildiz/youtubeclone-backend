@@ -85,7 +85,18 @@ export const updateVideo = async (req:Request, res:Response, next:NextFunction) 
 
 export const addToWatchLater = async (req:Request, res:Response, next:NextFunction) => {
 	try{
-		const later = await db.WatchLater.create({
+		let later = await db.WatchLater.findOne({
+			where:{
+				UserId:req.user.id,
+				VideoId:req.body.VideoId
+			}
+		})
+		if(later){
+			return res.json({
+				msg:'watch later pair already exists'
+			})
+		}
+		later = await db.WatchLater.create({
 			...req.body,
 			UserId:req.user.id
 		})
