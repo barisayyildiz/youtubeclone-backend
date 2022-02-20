@@ -3,6 +3,7 @@ import { Model } from "sequelize"
 
 interface VideoAttributes {
 	id: string;
+	cloudinaryId: string;
 	title: string;
 	description: string;
 	url: string;
@@ -20,6 +21,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
      * The `models/index` file will call this method automatically.
      */
 		id!: string;
+		cloudinaryId!: string;
 		title!: string;
 		description!: string;
 		url!: string;
@@ -67,6 +69,10 @@ module.exports = (sequelize:any, DataTypes:any) => {
 			allowNull:false,
 			primaryKey:true,
 			defaultValue:DataTypes.UUIDV4
+		},
+		cloudinaryId:{
+			type:DataTypes.STRING,
+			allowNull:false,
 		},
 		title:{
 			type:DataTypes.STRING,

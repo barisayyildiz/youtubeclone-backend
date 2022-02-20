@@ -46,6 +46,7 @@ export const createVideo = async (req:MulterRequest, res:Response, next:NextFunc
 		const video  = await db.Video.create({
 			...req.body,
 			url:result.url,
+			cloudinaryId:result.public_id,
 			UserId:req.user.id
 		})
 		res.json(video)
@@ -76,10 +77,29 @@ export const removeVideo = async (req:Request, res:Response, next:NextFunction) 
 				msg:'video kullanıcıya ait değil'
 			})
 		}else{
+			const cloudinaryId = video.cloudinaryId
+			// remove from postgres
 			await video.destroy()
-			res.json({
-				msg:"user successfully removed"
+
+			// remove from cloudinary
+			cloudinary.uploader
+			.destroy(cloudinaryId,{
+				folder:'videos',
+				resource_type:'video'
 			})
+				// upload image here
+			.then((result:any) => {
+				res.status(200).send({
+					message:'video successfully removed',
+					result
+				})
+			})
+			.catch((error:any) => {
+				res.status(500).send({
+					message: "removed from database not from cloudinary",
+					error,
+				});
+			});
 		}
 	}catch(error){
 		res.json(error)

@@ -61,4 +61,27 @@ router.post("/video", upload.single('video'), (req:MulterRequest, res:Response) 
 
 })
 
+router.delete("/video", async (req:Request, res:Response) => {
+	const { cloudinary_id } = req.body
+	
+	cloudinary.uploader
+	.destroy(cloudinary_id,{
+		folder:'videos',
+		resource_type:'video'
+	})
+		// upload image here
+	.then((result:any) => {
+		res.status(200).send({
+			message:'deleted',
+			result
+		})
+	})
+	.catch((error:any) => {
+		res.status(500).send({
+			message: "failed",
+			error,
+		});
+	});
+})
+
 export default router
