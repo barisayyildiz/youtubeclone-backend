@@ -1,17 +1,15 @@
 require('dotenv').config()
-import express, { Request, Response } from "express"
-import db from "../../models"
-import bcrypt from "bcrypt"
-import { signJWT, passwordCompare, verifyToken } from "../../auth/util"
+import { Request, Response, NextFunction } from "express"
+import db from "../models"
 import { Op } from "sequelize"
+import { signJWT, passwordCompare, verifyToken } from "../auth/util"
+import bcrypt from "bcrypt"
 
 const {
 	COOKIE_NAME
 } = process.env
 
-const router = express.Router()
-
-router.post("/signup", async(req:Request, res:Response) => {
+export const signUp = async (req:Request, res:Response, next:NextFunction) => {
 	try{
 
 		const { username, email, password } = req.body
@@ -43,10 +41,9 @@ router.post("/signup", async(req:Request, res:Response) => {
 		console.log(error)
 		res.json(error)
 	}
-})
+}
 
-
-router.post("/login", async (req:Request, res:Response) => {
+export const login = async (req:Request, res:Response, next:NextFunction) => {
 	try{
 		const {username, password} = req.body
 		
@@ -85,15 +82,12 @@ router.post("/login", async (req:Request, res:Response) => {
 		console.log(error)
 		res.json(error)
 	}
-})
+}
 
-
-router.post("/logout", verifyToken, (req:Request, res:Response) => {
+export const logout = async (req:Request, res:Response, next:NextFunction) => {
 	res.clearCookie(COOKIE_NAME!);
 	res.json({
 		msg:'user logged out'
 	})
-})
+}
 
-
-export default router

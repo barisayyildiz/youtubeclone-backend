@@ -9,8 +9,8 @@ import videoRoutes from "./routes/video"
 import commentRoutes from "./routes/comment"
 
 // auth routes
-import googleRoutes from "./routes/auth/googleAuthRoutes"
-import localAuthRoutes from "./routes/auth/localAuthRoutes"
+import googleRoutes from "./routes/auth/googleAuth"
+import localAuthRoutes from "./routes/auth/localAuth"
 
 // cloudinary routes
 import cloudinaryRoutes from "./routes/cloudinary"
