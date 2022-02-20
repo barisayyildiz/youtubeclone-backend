@@ -9,6 +9,7 @@ interface UserAttributes {
 	email: string;
 	password: string;
 	googleId: string;
+	avatar: string;
 	isAdmin:boolean;
 }
 
@@ -24,6 +25,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
 		email!:string;
 		password!:string;
 		googleId!:string;
+		avatar!:string;
 		isAdmin!:boolean;
     static associate(models:any) {
 			User.hasMany(models.Video, {onDelete: 'CASCADE', hooks:true})
@@ -76,6 +78,11 @@ module.exports = (sequelize:any, DataTypes:any) => {
 		googleId:{
 			type:DataTypes.STRING,
 			allowNull:true
+		},
+		avatar:{
+			type:DataTypes.STRING,
+			allowNull:true,
+			defaultValue:'https://res.cloudinary.com/dys0awgqk/image/upload/v1645385586/default_avatar_k91usd.jpg'
 		},
 		isAdmin:{
 			type:DataTypes.BOOLEAN,

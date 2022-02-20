@@ -17,7 +17,9 @@ router.post("/image", upload.single('avatar'), (req:MulterRequest, res:Response)
 
 	// upload image
 	cloudinary.uploader
-	.upload(path)
+	.upload(path,{
+		folder:'avatars'
+	})
 	.then(async (result:any) => {
 		// remove file from disk
 		await fs.promises.unlink(`./uploads/${filename}`)
@@ -39,6 +41,7 @@ router.post("/video", upload.single('video'), (req:MulterRequest, res:Response) 
 	
 	// upload video
 	cloudinary.uploader.upload(path, {
+		folder:'videos',
 		resource_type: "video"
 	})
 	.then(async (result:any) => {

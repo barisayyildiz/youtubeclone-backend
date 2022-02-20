@@ -15,6 +15,8 @@ import {
 	toggleVideoDislike
 } from "../controllers/video"
 
+import { upload } from "../multer"
+
 const router = express.Router()
 
 // kendi videolarını görme
@@ -31,7 +33,7 @@ router.get("/users/:id", (req:Request, res:Response, next:NextFunction) => {
 router.get("/video/:id", getVideoById)
 
 // video yükleme
-router.post("/", verifyToken, createVideo)
+router.post("/", verifyToken, upload.single('video'), createVideo)
 
 // video silme
 router.delete("/:id", verifyToken, removeVideo)

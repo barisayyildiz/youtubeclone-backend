@@ -1,5 +1,11 @@
-import { Request, Response, NextFunction, response } from "express"
+import { Request, Response, NextFunction } from "express"
 import db from "../models"
+import cloudinary from "../config/cloudinary"
+import fs from "fs"
+
+interface MulterRequest extends Request{
+	file?:any;
+}
 
 export const getVideoById = async (req:Request, res:Response, next:NextFunction) => {
 	try{
@@ -22,13 +28,28 @@ export const getVideoById = async (req:Request, res:Response, next:NextFunction)
 	}
 }
 
-export const createVideo = async (req:Request, res:Response, next:NextFunction) => {
+export const createVideo = async (req:MulterRequest, res:Response, next:NextFunction) => {
 	try{
-		const video = await db.Video.create({
+		console.log(req.body)
+		console.log(req.file)
+		const { path, filename } = req.file
+
+		// upload video
+		const result = await cloudinary.uploader.upload(path, {
+			folder:'videos',
+			resource_type: "video"
+		})
+
+		// remove file from disk
+		await fs.promises.unlink(`./uploads/${filename}`)
+
+		const video  = await db.Video.create({
 			...req.body,
+			url:result.url,
 			UserId:req.user.id
 		})
 		res.json(video)
+		
 	}catch(error){
 		res.json(error)
 	}
