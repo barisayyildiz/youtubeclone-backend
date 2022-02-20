@@ -32,7 +32,8 @@ router.get(`/${redirectUri}`, async (req:Request, res:Response) => {
 	const { 
 		id:googleId,
 		name:username,
-		email
+		email,
+		picture:avatar
 	} = googleUser 
 
 	// google hesabı ile giriş yapan kullanıcı sistemde kayıtlı mı	
@@ -48,7 +49,8 @@ router.get(`/${redirectUri}`, async (req:Request, res:Response) => {
 			username,
 			email,
 			password:uuidv4(), // unique value,
-			googleId
+			googleId,
+			avatar
 		})
 	}
 
